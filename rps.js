@@ -27,7 +27,7 @@ function getComputerChoice() {
 
 function playRound(humanChoice, computerChoice) {
     let winner = "";
-    computerChoiceDisplay.textContent = `Computer chose ${computerChoice}`;
+    computerChoiceDisplay.textContent = `Computer chose ${computerChoice}.`;
 
     if (humanChoice === computerChoice) winner = "tie";
 
@@ -58,18 +58,40 @@ function playRound(humanChoice, computerChoice) {
 
     switch (winner) {
         case "human":
-            lastRoundResultDisplay.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
+            lastRoundResultDisplay.textContent = `You win the round! ${humanChoice} beats ${computerChoice}.`;
             humanScore++;
             humanScoreDisplay.textContent = humanScore;
             break;
         case "computer":
-            lastRoundResultDisplay.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
+            lastRoundResultDisplay.textContent = `You lose the round! ${computerChoice} beats ${humanChoice}.`;
             computerScore++;
             computerScoreDisplay.textContent = computerScore;
             break;
         case "tie":
-            lastRoundResultDisplay.textContent = `Tie. You both picked ${computerChoice}`;
+            lastRoundResultDisplay.textContent = `Tie. You both picked ${computerChoice}.`;
             break;
+    }
+
+    if (humanScore === 5 || computerScore === 5) {
+        buttons.forEach((button) => {
+            button.disabled = true;
+        });
+
+        let gameOver = document.querySelector(".gameOverDisplay");
+        let gameOverText = document.createElement("p");
+        if (winner === 'human') {
+            gameOverText.textContent = "You won! Luck is on your side."
+        } else {
+            gameOverText.textContent = "The computer won. Better luck next time."
+        }
+        gameOver.appendChild(gameOverText);
+
+        let gameOverButton = document.createElement("button");
+        gameOverButton.textContent = "Click here to play again";
+        gameOverButton.addEventListener('click', () => {
+            location.reload();
+        })
+        gameOver.appendChild(gameOverButton);
     }
 }
 
